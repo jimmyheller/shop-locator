@@ -27,9 +27,9 @@ public class StoreLocationController {
         return stores;
     }
 
-    @GetMapping(path = "/lang/{lang}/lat/{lat}")
+    @GetMapping(path = {"/lang/{lang}/lat/{lat}", "/lat/{lat}/lang/{lang}"})
     public @ResponseBody
-    List getStoreInformation(@PathParam("lang") String lang, @PathParam("lat") String lat) {
+    double[] getStoreInformation(@PathVariable("lang") String lang, @PathVariable("lat") String lat) {
         try {
             return service.getStoreInformationByCityName(lang, lat);
         } catch (IOException e) {

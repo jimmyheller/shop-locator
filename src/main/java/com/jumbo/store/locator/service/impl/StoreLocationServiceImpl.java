@@ -1,19 +1,22 @@
 package com.jumbo.store.locator.service.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
+import com.jayway.jsonpath.Option;
+import com.jayway.jsonpath.TypeRef;
+import com.jayway.jsonpath.spi.json.JacksonJsonProvider;
+import com.jayway.jsonpath.spi.json.JsonProvider;
+import com.jayway.jsonpath.spi.mapper.JacksonMappingProvider;
+import com.jayway.jsonpath.spi.mapper.MappingProvider;
+import com.jumbo.store.locator.LatLong;
 import com.jumbo.store.locator.domain.StoreInformation;
 import com.jumbo.store.locator.service.api.StoreLocationService;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class StoreLocationServiceImpl implements StoreLocationService {
@@ -26,15 +29,54 @@ public class StoreLocationServiceImpl implements StoreLocationService {
     }
 
     @Override
-    public List<StoreInformation> getStoreInformationByCityName(String lang, String lat) throws IOException {
-//        String json = readFile("stores.json");
-//        Object document = Configuration.defaultConfiguration().jsonProvider().parse(json);
-//        String author0 = JsonPath.read(docum'ent, "$.stores[0].city");
-        Map<String, Object> stringObjectMap = new ObjectMapper().readValue(new File("stores.json"), HashMap.class);
-        stringObjectMap.get("stores");
-        return null;
+    public double[] getStoreInformationByCityName(String lang, String lat) throws IOException {
 
+
+        Configuration.setDefaults(new Configuration.Defaults() {
+
+            private final JsonProvider jsonProvider = new JacksonJsonProvider();
+            private final MappingProvider mappingProvider = new JacksonMappingProvider();
+
+            @Override
+            public JsonProvider jsonProvider() {
+                return jsonProvider;
+            }
+
+            @Override
+            public MappingProvider mappingProvider() {
+                return mappingProvider;
+            }
+
+            @Override
+            public Set<Option> options() {
+                return EnumSet.noneOf(Option.class);
+            }
+        });
+
+        String json = readFile("stores.json");
+        Object document = Configuration.defaultConfiguration().jsonProvider().parse(json);
+        TypeRef<List<StoreInformation>> typeRef = new TypeRef<List<StoreInformation>>() {
+        };
+
+
+        List<StoreInformation> storeInformations = JsonPath.parse(document).read("$.stores", typeRef);
+        List<double[]> coordinates = new ArrayList<>();
+        for (StoreInformation store : storeInformations) {
+            double[] n = LatLong.toEcef(new double[]{Double.parseDouble(store.getLatitude()), Double.parseDouble(store.getLongitude())});
+            coordinates.add(n);
+        }
+
+        double[] targetv = LatLong.toEcef(new double[]{Double.parseDouble(lat), Double.parseDouble(lang)});
+
+        int i = LatLong.closest(targetv, coordinates);
+
+
+        double[] closest = coordinates.get(i);
+
+
+        return closest;
     }
+
 
     public static String readFile(String filename) {
         String result = "";

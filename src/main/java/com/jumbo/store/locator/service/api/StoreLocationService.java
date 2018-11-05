@@ -8,5 +8,5 @@ import java.util.List;
 public interface StoreLocationService {
     List<StoreInformation> getStoreInformationByCityName(String city);
 
-    List<StoreInformation> getStoreInformationByCityName(String lang, String lat) throws IOException;
+    double[] getStoreInformationByCityName(String lang, String lat) throws IOException;
 }
