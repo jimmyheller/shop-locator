@@ -1,5 +1,8 @@
 package com.jumbo.store.locator.domain;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public class StoreInformation {
     private String city;
     private String postalCode;
@@ -8,8 +11,8 @@ public class StoreInformation {
     private String street3;
     private String addressName;
     private String uuid;
-    private String longitude;
-    private String latitude;
+    private double longitude;
+    private double latitude;
     private String complexNumber;
     private boolean showWarningMessage;
     private String todayOpen;
@@ -74,19 +77,19 @@ public class StoreInformation {
         this.uuid = uuid;
     }
 
-    public String getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
-    public String getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
@@ -144,5 +147,58 @@ public class StoreInformation {
 
     public void setTodayClose(String todayClose) {
         this.todayClose = todayClose;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StoreInformation that = (StoreInformation) o;
+        return showWarningMessage == that.showWarningMessage &&
+                collectionPoint == that.collectionPoint &&
+                Objects.equals(city, that.city) &&
+                Objects.equals(postalCode, that.postalCode) &&
+                Objects.equals(street, that.street) &&
+                Objects.equals(street2, that.street2) &&
+                Objects.equals(street3, that.street3) &&
+                Objects.equals(addressName, that.addressName) &&
+                Objects.equals(uuid, that.uuid) &&
+                Objects.equals(longitude, that.longitude) &&
+                Objects.equals(latitude, that.latitude) &&
+                Objects.equals(complexNumber, that.complexNumber) &&
+                Objects.equals(todayOpen, that.todayOpen) &&
+                Objects.equals(locationType, that.locationType) &&
+                Objects.equals(sapStoreID, that.sapStoreID) &&
+                Objects.equals(todayClose, that.todayClose);
+    }
+
+    @Override
+    public int hashCode() {
+
+        int result = Objects.hash(city, postalCode, street, street2, street3, addressName, uuid, longitude, latitude, complexNumber, showWarningMessage, todayOpen, locationType, collectionPoint, sapStoreID, todayClose);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "StoreInformation{" +
+                "city='" + city + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                ", street='" + street + '\'' +
+                ", street2='" + street2 + '\'' +
+                ", street3='" + street3 + '\'' +
+                ", addressName='" + addressName + '\'' +
+                ", uuid='" + uuid + '\'' +
+                ", longitude='" + longitude + '\'' +
+                ", latitude='" + latitude + '\'' +
+                ", complexNumber='" + complexNumber + '\'' +
+                ", showWarningMessage=" + showWarningMessage +
+                ", todayOpen='" + todayOpen + '\'' +
+                ", locationType='" + locationType + '\'' +
+                ", collectionPoint=" + collectionPoint +
+                ", sapStoreID='" + sapStoreID + '\'' +
+                ", todayClose='" + todayClose + '\'' +
+                '}';
     }
 }

@@ -20,12 +20,6 @@ public class StoreLocationController {
     }
 
     //<editor-fold desc="get methods">
-    @GetMapping(path = "/city/{city}")
-    public @ResponseBody
-    List<StoreInformation> getStoreInformation(@PathParam("city") String city) {
-        List<StoreInformation> stores = service.getStoreInformationByCityName(city);
-        return stores;
-    }
 
     @GetMapping(path = {"/lang/{lang}/lat/{lat}", "/lat/{lat}/lang/{lang}"})
     public @ResponseBody
