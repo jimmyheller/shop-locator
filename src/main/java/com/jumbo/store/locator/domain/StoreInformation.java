@@ -1,9 +1,8 @@
 package com.jumbo.store.locator.domain;
 
-import java.util.Arrays;
 import java.util.Objects;
 
-public class StoreInformation {
+public class StoreInformation implements Comparable<StoreInformation>{
     private String city;
     private String postalCode;
     private String street;
@@ -20,6 +19,7 @@ public class StoreInformation {
     private boolean collectionPoint;
     private String sapStoreID;
     private String todayClose;
+    private Double distance;
 
     public String getCity() {
         return city;
@@ -149,13 +149,22 @@ public class StoreInformation {
         this.todayClose = todayClose;
     }
 
+    public void setDistance(Double distance) {
+        this.distance = distance;
+    }
+
+    public Double getDistance() {
+        return distance;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         StoreInformation that = (StoreInformation) o;
-        return showWarningMessage == that.showWarningMessage &&
+        return Double.compare(that.longitude, longitude) == 0 &&
+                Double.compare(that.latitude, latitude) == 0 &&
+                showWarningMessage == that.showWarningMessage &&
                 collectionPoint == that.collectionPoint &&
                 Objects.equals(city, that.city) &&
                 Objects.equals(postalCode, that.postalCode) &&
@@ -164,20 +173,17 @@ public class StoreInformation {
                 Objects.equals(street3, that.street3) &&
                 Objects.equals(addressName, that.addressName) &&
                 Objects.equals(uuid, that.uuid) &&
-                Objects.equals(longitude, that.longitude) &&
-                Objects.equals(latitude, that.latitude) &&
                 Objects.equals(complexNumber, that.complexNumber) &&
                 Objects.equals(todayOpen, that.todayOpen) &&
                 Objects.equals(locationType, that.locationType) &&
                 Objects.equals(sapStoreID, that.sapStoreID) &&
-                Objects.equals(todayClose, that.todayClose);
+                Objects.equals(todayClose, that.todayClose) &&
+                Objects.equals(distance, that.distance);
     }
 
     @Override
     public int hashCode() {
-
-        int result = Objects.hash(city, postalCode, street, street2, street3, addressName, uuid, longitude, latitude, complexNumber, showWarningMessage, todayOpen, locationType, collectionPoint, sapStoreID, todayClose);
-        return result;
+        return Objects.hash(city, postalCode, street, street2, street3, addressName, uuid, longitude, latitude, complexNumber, showWarningMessage, todayOpen, locationType, collectionPoint, sapStoreID, todayClose, distance);
     }
 
     @Override
@@ -190,8 +196,8 @@ public class StoreInformation {
                 ", street3='" + street3 + '\'' +
                 ", addressName='" + addressName + '\'' +
                 ", uuid='" + uuid + '\'' +
-                ", longitude='" + longitude + '\'' +
-                ", latitude='" + latitude + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
                 ", complexNumber='" + complexNumber + '\'' +
                 ", showWarningMessage=" + showWarningMessage +
                 ", todayOpen='" + todayOpen + '\'' +
@@ -199,6 +205,12 @@ public class StoreInformation {
                 ", collectionPoint=" + collectionPoint +
                 ", sapStoreID='" + sapStoreID + '\'' +
                 ", todayClose='" + todayClose + '\'' +
+                ", distance=" + distance +
                 '}';
+    }
+
+    @Override
+    public int compareTo(StoreInformation o) {
+        return this.getDistance().compareTo(o.getDistance());
     }
 }

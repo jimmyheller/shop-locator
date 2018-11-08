@@ -10,6 +10,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.EnumSet;
 import java.util.Set;
 
@@ -21,6 +23,11 @@ public class StoreLocationApplication {
         SpringApplication.run(StoreLocationApplication.class, args);
     }
 
+    /**
+     * setting JsonPath library configuration for all the context of application
+     *
+     * @return Global Configuration of JsonPath
+     */
     @Bean
     public Configuration configuration() {
         Configuration.setDefaults(new Configuration.Defaults() {
@@ -44,5 +51,23 @@ public class StoreLocationApplication {
             }
         });
         return Configuration.builder().build();
+    }
+
+    @Bean
+    public String jsonFile() {
+        String result = "";
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("stores.json"));
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+            while (line != null) {
+                sb.append(line);
+                line = br.readLine();
+            }
+            result = sb.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }
