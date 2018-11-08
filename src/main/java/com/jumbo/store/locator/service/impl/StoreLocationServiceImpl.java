@@ -69,7 +69,7 @@ public class StoreLocationServiceImpl implements StoreLocationService {
                 line = br.readLine();
             }
             result = sb.toString();
-
+            //setting json provide in order to use the typeref
             Object document = Configuration.defaultConfiguration().jsonProvider().parse(result);
             TypeRef<List<StoreInformation>> typeRef = new TypeRef<List<StoreInformation>>() {
             };

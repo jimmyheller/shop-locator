@@ -52,8 +52,8 @@ public class StoreLocationController {
             response.setData(data);
             response.setResponseCode(SUCCESSFUL);
             response.setMessage("operation was successful");
-            logger.info("operation was successful for request with inputs of longitude: {} and latitude: {}",
-                    longitude, latitude);
+            logger.info("operation was successful for request with inputs of longitude: {} and latitude: {} " +
+                            "and returned:{}", longitude, latitude,data);
 
         } catch (Exception q) {
             response.setMessage("there was an error in finding the requested data");
