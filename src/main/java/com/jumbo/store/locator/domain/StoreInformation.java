@@ -2,7 +2,7 @@ package com.jumbo.store.locator.domain;
 
 import java.util.Objects;
 
-public class StoreInformation implements Comparable<StoreInformation>{
+public class StoreInformation implements Comparable<StoreInformation> {
     private String city;
     private String postalCode;
     private String street;

@@ -5,6 +5,8 @@ public class StoreLocatorResponse<T> {
     //in response to find out if the state was successful or not
     public static final int SUCCESSFUL = 0;
     public static final int UNSUCCESSFUL = 1;
+    public static final int NOT_VALID_LATITUDE = 2;
+    public static final int NOT_VALID_LONGITUDE = 3;
 
     private String message;
     private int responseCode;

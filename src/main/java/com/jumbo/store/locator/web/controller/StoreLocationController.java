@@ -10,20 +10,19 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-import static com.jumbo.store.locator.web.object.StoreLocatorResponse.SUCCESSFUL;
-import static com.jumbo.store.locator.web.object.StoreLocatorResponse.UNSUCCESSFUL;
+import static com.jumbo.store.locator.web.object.StoreLocatorResponse.*;
 
 @RestController
 @RequestMapping(path = "/api/v1/stores")
 public class StoreLocationController {
-
+    //<editor-fold desc="variables and constructor">
     private static final Logger logger = LoggerFactory.getLogger(StoreLocationController.class);
     private StoreLocationService service;
 
     public StoreLocationController(StoreLocationService service) {
         this.service = service;
     }
-
+    //</editor-fold>
     //<editor-fold desc="get methods">
 
     @GetMapping("/coordinates")
@@ -36,8 +35,18 @@ public class StoreLocationController {
             logger.info("incoming request form: {}, with inputs of longitude: {} and latitude: {}",
                     request.getRemoteAddr(), longitude, latitude);
 
-            List<StoreInformation> data = service.getStoreInformationByCityName(Double.parseDouble(longitude),
-                    Double.parseDouble(latitude));
+            double targetLat = Double.parseDouble(latitude);
+            double targetLong = Double.parseDouble(longitude);
+            if (targetLat > 90 || targetLat < -90) {
+                response.setResponseCode(NOT_VALID_LATITUDE);
+                response.setMessage("your latitude is not valid");
+            }
+            if (targetLong > 180 || targetLong < -180) {
+                response.setResponseCode(NOT_VALID_LONGITUDE);
+                response.setMessage("your latitude is not valid");
+            }
+            List<StoreInformation> data = service.getStoreInformationByCityName(targetLong, targetLat);
+
             //since we are not checking that how far it is going to be and assuming that jumbo has at least 5 store near
             //every customer the list is not going to be null or empty
             response.setData(data);
@@ -54,7 +63,6 @@ public class StoreLocationController {
         return response;
     }
     //</editor-fold>
-
     //<editor-fold desc="post methods">
 
 

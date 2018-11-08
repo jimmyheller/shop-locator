@@ -36,7 +36,7 @@ public class StoreLocationServiceImpl implements StoreLocationService {
     public List<StoreInformation> getStoreInformationByCityName(double targetLong, double targetLat) {
         logger.info("finding nearest stores to the customer , inputs are , lang:{} and lat:{}", targetLong, targetLat);
 
-        //customizing max heap algorithm in a way that the best performance is going to be delivered
+        //using the idea of max heap algorithm
         createDistanceList(storeInformationList, targetLat, targetLong);
         List<StoreInformation> pocket = storeInformationList.stream().limit(5)
                 .sorted(StoreInformation::compareTo).collect(Collectors.toList());
