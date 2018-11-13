@@ -52,22 +52,4 @@ public class StoreLocationApplication {
         });
         return Configuration.builder().build();
     }
-
-    @Bean
-    public String jsonFile() {
-        String result = "";
-        try {
-            BufferedReader br = new BufferedReader(new FileReader("stores.json"));
-            StringBuilder sb = new StringBuilder();
-            String line = br.readLine();
-            while (line != null) {
-                sb.append(line);
-                line = br.readLine();
-            }
-            result = sb.toString();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
 }
