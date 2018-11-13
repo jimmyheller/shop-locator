@@ -27,16 +27,15 @@ public class StoreLocationController {
 
     @GetMapping("/coordinates")
     public @ResponseBody
-    StoreLocatorResponse<List<StoreInformation>> getStoreInformation(@RequestParam("long") String longitude,
-                                                                     @RequestParam("lat") String latitude,
+    StoreLocatorResponse<List<StoreInformation>> getStoreInformation(@RequestParam("long") double targetLong,
+                                                                     @RequestParam("lat") double targetLat,
                                                                      HttpServletRequest request) {
         StoreLocatorResponse<List<StoreInformation>> response = new StoreLocatorResponse<>();
         try {
             logger.info("incoming request form: {}, with inputs of longitude: {} and latitude: {}",
-                    request.getRemoteAddr(), longitude, latitude);
+                    request.getRemoteAddr(), targetLong, targetLat);
 
-            double targetLat = Double.parseDouble(latitude);
-            double targetLong = Double.parseDouble(longitude);
+
             if (targetLat > 90 || targetLat < -90) {
                 response.setResponseCode(NOT_VALID_LATITUDE);
                 response.setMessage("your latitude is not valid");
@@ -53,7 +52,7 @@ public class StoreLocationController {
             response.setResponseCode(SUCCESSFUL);
             response.setMessage("operation was successful");
             logger.info("operation was successful for request with inputs of longitude: {} and latitude: {} " +
-                            "and returned:{}", longitude, latitude,data);
+                    "and returned:{}", targetLong, targetLat, data);
 
         } catch (Exception q) {
             response.setMessage("there was an error in finding the requested data");
