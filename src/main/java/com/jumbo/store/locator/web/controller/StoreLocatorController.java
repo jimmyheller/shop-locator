@@ -1,7 +1,7 @@
 package com.jumbo.store.locator.web.controller;
 
 import com.jumbo.store.locator.domain.StoreInformation;
-import com.jumbo.store.locator.service.api.StoreLocationService;
+import com.jumbo.store.locator.service.api.StoreLocatorService;
 import com.jumbo.store.locator.web.object.StoreLocatorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,19 +13,19 @@ import java.util.List;
 import static com.jumbo.store.locator.web.object.StoreLocatorResponse.*;
 
 @RestController
-@RequestMapping(path = "/api/v1/stores")
-public class StoreLocationController {
+@RequestMapping(path = "/api/v1/stores/coordinates")
+public class StoreLocatorController {
     //<editor-fold desc="variables and constructor">
-    private static final Logger logger = LoggerFactory.getLogger(StoreLocationController.class);
-    private StoreLocationService service;
+    private static final Logger logger = LoggerFactory.getLogger(StoreLocatorController.class);
+    private StoreLocatorService service;
 
-    public StoreLocationController(StoreLocationService service) {
+    public StoreLocatorController(StoreLocatorService service) {
         this.service = service;
     }
     //</editor-fold>
-    //<editor-fold desc="get methods">
 
-    @GetMapping("/coordinates")
+    //<editor-fold desc="get methods">
+    @GetMapping
     public @ResponseBody
     StoreLocatorResponse<List<StoreInformation>> getStoreInformation(@RequestParam("long") double targetLong,
                                                                      @RequestParam("lat") double targetLat,
@@ -35,14 +35,15 @@ public class StoreLocationController {
             logger.info("incoming request form: {}, with inputs of longitude: {} and latitude: {}",
                     request.getRemoteAddr(), targetLong, targetLat);
 
-
             if (targetLat > 90 || targetLat < -90) {
                 response.setResponseCode(NOT_VALID_LATITUDE);
                 response.setMessage("your latitude is not valid");
+                return response;
             }
             if (targetLong > 180 || targetLong < -180) {
                 response.setResponseCode(NOT_VALID_LONGITUDE);
                 response.setMessage("your latitude is not valid");
+                return response;
             }
             List<StoreInformation> data = service.getStoreInformationByCityName(targetLong, targetLat);
 
@@ -62,8 +63,7 @@ public class StoreLocationController {
         return response;
     }
     //</editor-fold>
+
     //<editor-fold desc="post methods">
-
-
     //</editor-fold>
 }

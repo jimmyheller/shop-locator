@@ -4,7 +4,7 @@ import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.TypeRef;
 import com.jumbo.store.locator.domain.StoreInformation;
-import com.jumbo.store.locator.service.api.StoreLocationService;
+import com.jumbo.store.locator.service.api.StoreLocatorService;
 import com.jumbo.store.locator.util.DistanceUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,16 +17,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class StoreLocationServiceImpl implements StoreLocationService {
+public class StoreLocatorServiceImpl implements StoreLocatorService {
 
-    private final Configuration configuration;
+    private final Configuration configuration;//it is not used explicit, but used to configure as a bean
     private final DistanceUtil distanceUtil;
     private final List<StoreInformation> storeInformationList;
 
 
-    private final Logger logger = LoggerFactory.getLogger(StoreLocationServiceImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(StoreLocatorServiceImpl.class);
 
-    public StoreLocationServiceImpl(Configuration configuration, DistanceUtil distanceUtil) {
+    public StoreLocatorServiceImpl(Configuration configuration, DistanceUtil distanceUtil) {
         this.distanceUtil = distanceUtil;
         this.configuration = configuration;
         storeInformationList = retrieveData();
@@ -59,7 +59,7 @@ public class StoreLocationServiceImpl implements StoreLocationService {
 
     //this method is going to be used once
     public List<StoreInformation> retrieveData() {
-        String result = "";
+        String result;
         try {
             BufferedReader br = new BufferedReader(new FileReader("stores.json"));
             StringBuilder sb = new StringBuilder();

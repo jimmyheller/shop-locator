@@ -4,7 +4,7 @@ import com.jumbo.store.locator.domain.StoreInformation;
 
 import java.util.List;
 
-public interface StoreLocationService {
+public interface StoreLocatorService {
 
     /**
      * by giving coordinates of the point this method would calculate 5 points which is the nearest by direct

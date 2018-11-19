@@ -10,17 +10,15 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.util.EnumSet;
 import java.util.Set;
 
 @SpringBootApplication
-public class StoreLocationApplication {
+public class StoreLocatorApplication {
 
 
     public static void main(String[] args) {
-        SpringApplication.run(StoreLocationApplication.class, args);
+        SpringApplication.run(StoreLocatorApplication.class, args);
     }
 
     /**
