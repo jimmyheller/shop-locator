@@ -21,33 +21,4 @@ public class StoreLocatorApplication {
         SpringApplication.run(StoreLocatorApplication.class, args);
     }
 
-    /**
-     * setting JsonPath library configuration for all the context of application
-     *
-     * @return Global Configuration of JsonPath
-     */
-    @Bean
-    public Configuration configuration() {
-        Configuration.setDefaults(new Configuration.Defaults() {
-
-            private final JsonProvider jsonProvider = new JacksonJsonProvider();
-            private final MappingProvider mappingProvider = new JacksonMappingProvider();
-
-            @Override
-            public JsonProvider jsonProvider() {
-                return jsonProvider;
-            }
-
-            @Override
-            public MappingProvider mappingProvider() {
-                return mappingProvider;
-            }
-
-            @Override
-            public Set<Option> options() {
-                return EnumSet.noneOf(Option.class);
-            }
-        });
-        return Configuration.builder().build();
-    }
 }

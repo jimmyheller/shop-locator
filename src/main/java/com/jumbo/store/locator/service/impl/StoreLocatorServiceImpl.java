@@ -1,8 +1,7 @@
 package com.jumbo.store.locator.service.impl;
 
-import com.jayway.jsonpath.Configuration;
-import com.jayway.jsonpath.JsonPath;
-import com.jayway.jsonpath.TypeRef;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jumbo.store.locator.domain.StoreInformation;
 import com.jumbo.store.locator.service.api.StoreLocatorService;
 import com.jumbo.store.locator.util.DistanceUtil;
@@ -10,8 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.File;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,16 +17,14 @@ import java.util.stream.Collectors;
 @Service
 public class StoreLocatorServiceImpl implements StoreLocatorService {
 
-    private final Configuration configuration;//it is not used explicit, but used to configure as a bean
     private final DistanceUtil distanceUtil;
     private final List<StoreInformation> storeInformationList;
 
 
     private final Logger logger = LoggerFactory.getLogger(StoreLocatorServiceImpl.class);
 
-    public StoreLocatorServiceImpl(Configuration configuration, DistanceUtil distanceUtil) {
+    public StoreLocatorServiceImpl(DistanceUtil distanceUtil) {
         this.distanceUtil = distanceUtil;
-        this.configuration = configuration;
         storeInformationList = retrieveData();
     }
 
@@ -59,22 +55,11 @@ public class StoreLocatorServiceImpl implements StoreLocatorService {
 
     //this method is going to be used once
     public List<StoreInformation> retrieveData() {
-        String result;
         try {
-            BufferedReader br = new BufferedReader(new FileReader("stores.json"));
-            StringBuilder sb = new StringBuilder();
-            String line = br.readLine();
-            while (line != null) {
-                sb.append(line);
-                line = br.readLine();
-            }
-            result = sb.toString();
-            //setting json provide in order to use the typeref
-            Object document = Configuration.defaultConfiguration().jsonProvider().parse(result);
-            TypeRef<List<StoreInformation>> typeRef = new TypeRef<List<StoreInformation>>() {
-            };
-            //create a list of sotre information object based on the json
-            return JsonPath.parse(document).read("$.stores", typeRef);
+            ObjectMapper objectMapper = new ObjectMapper();
+            File file = new File("stores.json");
+            return objectMapper.readValue(file, new TypeReference<List<StoreInformation>>() {
+            });
         } catch (Exception e) {
             logger.error("there was an error in reading file content , fileName is :{} and exception is:{}",
                     "stores.json", e);

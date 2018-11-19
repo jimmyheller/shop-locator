@@ -1,5 +1,6 @@
 package com.jumbo.store.locator;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jumbo.store.locator.domain.StoreInformation;
 
@@ -19,13 +20,8 @@ public class ScratchPad {
     }
 
     public void run() throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        File file = new File("stores.json");
 
 
-        List<StoreInformation> informationList= objectMapper.readValue(file, List.class);
-        System.out.println(informationList);
 
 
     }
