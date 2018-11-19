@@ -1,5 +1,4 @@
-{
-    "stores": [
+[
         {
             "city": "'s Gravendeel",
             "postalCode": "3295 BD",
@@ -10353,9 +10352,4 @@
             "sapStoreID": "4741",
             "todayClose": "21:00"
         }
-    ],
-    "attributes": {
-        "longitude": {},
-        "latitude": {}
-    }
-}
+]
