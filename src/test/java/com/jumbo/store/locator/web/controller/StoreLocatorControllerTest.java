@@ -10,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static com.jumbo.store.locator.web.object.StoreLocatorResponse.NOT_VALID_LATITUDE;
+import static com.jumbo.store.locator.web.object.StoreLocatorResponse.NOT_VALID_LONGITUDE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -25,7 +27,6 @@ public class StoreLocatorControllerTest {
     @MockBean
     StoreLocatorService service;
 
-
     @Test
     public void testControllerWithoutInputs() throws Exception {
         this.mvc.perform(get("/api/v1/stores/coordinates").
@@ -36,15 +37,14 @@ public class StoreLocatorControllerTest {
     public void testLatValueOutOfRange() throws Exception {
         this.mvc.perform(get("/api/v1/stores/coordinates?lat=100&long=80"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("responseCode").value("2"));
-
+                .andExpect(jsonPath("responseCode").value(NOT_VALID_LATITUDE));
     }
 
     @Test
     public void testLongValuedOutOfRange() throws Exception {
         this.mvc.perform(get("/api/v1/stores/coordinates?lat=71&long=185"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("responseCode").value("3"));
+                .andExpect(jsonPath("responseCode").value(NOT_VALID_LONGITUDE));
     }
 
 

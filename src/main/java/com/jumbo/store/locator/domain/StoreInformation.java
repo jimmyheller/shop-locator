@@ -183,7 +183,9 @@ public class StoreInformation implements Comparable<StoreInformation> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(city, postalCode, street, street2, street3, addressName, uuid, longitude, latitude, complexNumber, showWarningMessage, todayOpen, locationType, collectionPoint, sapStoreID, todayClose, distance);
+        return Objects.hash(city, postalCode, street, street2, street3, addressName, uuid, longitude, latitude,
+                complexNumber, showWarningMessage, todayOpen, locationType, collectionPoint, sapStoreID,
+                todayClose, distance);
     }
 
     @Override

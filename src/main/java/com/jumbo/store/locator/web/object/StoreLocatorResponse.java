@@ -35,4 +35,13 @@ public class StoreLocatorResponse<T> {
     public void setData(T data) {
         this.data = data;
     }
+
+    @Override
+    public String toString() {
+        return "StoreLocatorResponse{" +
+                "message='" + message + '\'' +
+                ", responseCode=" + responseCode +
+                ", data=" + data +
+                '}';
+    }
 }

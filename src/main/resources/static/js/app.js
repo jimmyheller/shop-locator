@@ -18,7 +18,7 @@ app.controller('searchByCoordinates', function ($scope, $http) {
                 }
                 $scope.data = response.data.data;
                 $scope.appMessage = response.data.message;
-            }, function () {
+            }, function (x, y, z) {
                 $scope.appMessage = 'There was an error in finding your request,please try again.'
             });
     }
