@@ -34,17 +34,43 @@ public class StoreLocatorControllerTest {
     }
 
     @Test
-    public void testLatValueOutOfRange() throws Exception {
+    public void testLatValueOutOfRangeMax() throws Exception {
         this.mvc.perform(get("/api/v1/stores/coordinates?lat=100&long=80"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("responseCode").value(NOT_VALID_LATITUDE));
     }
 
     @Test
-    public void testLongValuedOutOfRange() throws Exception {
+    public void testLatValueOutOfRangeMin() throws Exception {
+        this.mvc.perform(get("/api/v1/stores/coordinates?lat=-91&long=80"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("responseCode").value(NOT_VALID_LATITUDE));
+    }
+
+    @Test
+    public void testLongValueOutOfRangeMax() throws Exception {
         this.mvc.perform(get("/api/v1/stores/coordinates?lat=71&long=185"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("responseCode").value(NOT_VALID_LONGITUDE));
+    }
+
+    @Test
+    public void testLongValueOutOfRangeMin() throws Exception {
+        this.mvc.perform(get("/api/v1/stores/coordinates?lat=71&long=-185"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("responseCode").value(NOT_VALID_LONGITUDE));
+    }
+
+    @Test
+    public void testLongValuIsCharacter() throws Exception {
+        this.mvc.perform(get("/api/v1/stores/coordinates?lat=www&long=7"))
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void testLatValuIsCharacter() throws Exception {
+        this.mvc.perform(get("/api/v1/stores/coordinates?lat=44&long=wss"))
+                .andExpect(status().is4xxClientError());
     }
 
 
