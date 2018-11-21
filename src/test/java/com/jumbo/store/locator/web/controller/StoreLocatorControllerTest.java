@@ -34,6 +34,19 @@ public class StoreLocatorControllerTest {
     }
 
     @Test
+    public void testControllerWithoutLongitudeInput() throws Exception {
+        this.mvc.perform(get("/api/v1/stores/coordinates?lat=55")
+                .accept(MediaType.APPLICATION_JSON)).andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void testControllerWithoutLatitudeInput() throws Exception {
+        this.mvc.perform(get("/api/v1/stores/coordinates?long=55")
+                .accept(MediaType.APPLICATION_JSON)).andExpect(status().is4xxClientError());
+    }
+
+
+    @Test
     public void testLatValueOutOfRangeMax() throws Exception {
         this.mvc.perform(get("/api/v1/stores/coordinates?lat=100&long=80"))
                 .andExpect(status().isOk())
@@ -62,13 +75,13 @@ public class StoreLocatorControllerTest {
     }
 
     @Test
-    public void testLongValuIsCharacter() throws Exception {
+    public void testLongValueIsCharacter() throws Exception {
         this.mvc.perform(get("/api/v1/stores/coordinates?lat=www&long=7"))
                 .andExpect(status().is4xxClientError());
     }
 
     @Test
-    public void testLatValuIsCharacter() throws Exception {
+    public void testLatValueIsCharacter() throws Exception {
         this.mvc.perform(get("/api/v1/stores/coordinates?lat=44&long=wss"))
                 .andExpect(status().is4xxClientError());
     }
